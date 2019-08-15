@@ -1,62 +1,24 @@
+#include <gmp.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
 
-#define DEFAULT_FIRST ULLONG_MAX
-//#define DEFAULT_FIRST 100
+//#define MAX_LENGTH 100
+#define DEFAULT_FIRST "100000"
 
-
-unsigned long long int find_divisor(unsigned long long int n)
+int main()
 	{
-	register unsigned long long int i, last_divisor;
-	if (n <= 3)
-		return 1;
-	if (n%2 == 0)
-		return 2;
-	last_divisor = n/2;
-	for (i = 3; i <= last_divisor; i += 2)
-		if (n%i == 0)
-			return i;
-		else
-			last_divisor = n/i;
-	return 1;
+	mpz_t nFirst;
+	char nStr[] = DEFAULT_FIRST;
+	
+	mpz_init(nFirst);
+	mpz_set_ui(nFirst,0);
+	
+	mpz_t dummy;
+	mpz_init(dummy);
+	mpz_set_ui(dummy,0);
+	if (mpz_mod_ui (dummy, nFirst, 2)%2 == 0)
+		mpz_sub_ui (nFirst, nFirst, 1);
+		
+	
+	
+	
 	}
-
-
-int main(int argc, char *argv[])
-	{
-	register unsigned long long int first, i, divisor;
-	setbuf(stdout, NULL);
-	if (argc == 1)
-		first = DEFAULT_FIRST;
-	else if (argc == 2)
-		first = strtoull(argv[1], NULL, 0);
-	else
-		{
-		printf("Usage: %s <first_number>\n", argv[0]);
-		return 1;
-		}
-	if (first%2 == 0)
-		first--;
-	for (i = first; i>=2; i-=2)
-		{
-		divisor = find_divisor(i);
-		if (divisor == 1)
-			{			
-			printf("%llu IS PRIME\n", i);
-			return 0;
-			}
-		else
-			printf("%llu is divisible by %llu\n", i, divisor);
-		}
-	return 0;
-	
-	//printf("%llu\n", ULLONG_MAX);
-	//printf("%llu\n", first);
-	}
-	
-	
-	
-	
-	
-	
