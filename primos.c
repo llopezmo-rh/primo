@@ -1,5 +1,6 @@
-#include <gmp.h>
 #include <stdio.h>
+#include <string.h>
+#include <gmp.h>
 
 #define MAX_LENGTH 100
 #define DEFAULT_FIRST "1000000000000000000000000"
@@ -43,10 +44,13 @@ int find_divisor(mpz_t divisor, const mpz_t n)
 		return 1;	
 	}
 
-int main()
+int main(int argc, char *argv[])
 	{
 	mpz_t i;
-	mpz_init_set_str(i, DEFAULT_FIRST, 10);
+	if (argc == 1)
+		mpz_init_set_str(i, DEFAULT_FIRST, 10);
+	else
+		mpz_init_set_str(i, argv[1], 10);
 	
 	if (mpz_even_p(i))
 		mpz_add_ui(i, i, 1);
