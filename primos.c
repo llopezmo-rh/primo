@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #define MAX_LENGTH 100
-#define DEFAULT_FIRST "10000000000000000000"
+#define DEFAULT_FIRST "1000000000000000000000000"
 
 #define _STRINGIFY(s) #s
 #define STRINGIFY(s) _STRINGIFY(s)
@@ -66,7 +66,7 @@ int main()
 			{
 			mpz_get_str(i_str, 10, i);
 			printf("%s IS PRIME\n", i_str);
-			break;
+			//break;
 			}
 		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
