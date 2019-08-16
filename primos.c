@@ -2,12 +2,12 @@
 #include <stdio.h>
 
 #define MAX_LENGTH 100
-#define DEFAULT_FIRST "1000000"
+#define DEFAULT_FIRST 1000000
 
 #define _STRINGIFY(s) #s
 #define STRINGIFY(s) _STRINGIFY(s)
 
-// find_divisor returns 0 (false) if no divisor has been found
+// find_divisor returns 0 (false) if no divisor different to 1 has been found
 int find_divisor(mpz_t divisor, const mpz_t i)
 	{
 	
@@ -16,8 +16,8 @@ int find_divisor(mpz_t divisor, const mpz_t i)
 
 int main()
 	{
-	char iStr[MAX_LENGTH] = DEFAULT_FIRST;
-	register mpz_t i;
+	char iStr[MAX_LENGTH] = ""STRINGIFY(DEFAULT_FIRST)"";
+	mpz_t i;
 	mpz_init(i);
 	mpz_init_set_str(i, iStr, 10)
 	
@@ -40,6 +40,7 @@ int main()
 			printf("%s IS PRIME\n", iStr);
 			break;
 			}
+		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
 		if (mpz_sizeinbase(i, 10)>MAX_LENGTH)
 			{
