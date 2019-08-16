@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #define MAX_LENGTH 100
-#define DEFAULT_FIRST 1000000
+#define DEFAULT_FIRST "10000000000000000000"
 
 #define _STRINGIFY(s) #s
 #define STRINGIFY(s) _STRINGIFY(s)
@@ -17,9 +17,9 @@ int find_divisor(mpz_t divisor, const mpz_t n)
 		return 1;
 		}
 	
-	register mpz_t i;
+	mpz_t i;
 	mpz_init_set_ui(i, 3);
-	register mpz_t last_divisor;
+	mpz_t last_divisor;
 	mpz_init (last_divisor);
 	mpz_cdiv_q_ui(last_divisor, n, 2);
 	while (mpz_cmp(i, last_divisor) <= 0)
@@ -45,8 +45,8 @@ int find_divisor(mpz_t divisor, const mpz_t n)
 
 int main()
 	{
-	register mpz_t i;
-	mpz_init_set_ui(i, DEFAULT_FIRST);
+	mpz_t i;
+	mpz_init_set_str(i, DEFAULT_FIRST, 10);
 	
 	if (mpz_even_p(i))
 		mpz_add_ui(i, i, 1);
