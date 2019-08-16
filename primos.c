@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <gmp.h>
 
-// Maximum ciphers. If the loop reaches a longer number, it will stop
+// If the loop reaches a number with more ciphers than MAX_LENGTH, it will stop
 #define MAX_LENGTH 100
 
 // In case no argument is introduced, this will be the first number to be calculated
@@ -51,21 +51,29 @@ int find_divisor(mpz_t divisor, const mpz_t n)
 
 int main(int argc, char *argv[])
 	{
-	// Removing buffer to receive output on stdout immediately
+	// Removing buffer to send output to stdout immediately
 	setbuf(stdout, NULL);
 	
-	// Setting "i", which will be the loop index
+	// Setting first value of "i", which will be the loop index
 	mpz_t i;
 	if (argc == 1)
 		mpz_init_set_str(i, DEFAULT_FIRST, 10);
 	else
 		mpz_init_set_str(i, argv[1], 10);
+		
+	// Validating first value of "i"
+	if (mpz_cmp_ui(i, 2) < 0)
+		{
+		fprintf(stderr, "Fatal error: starting number must be an integer greater than or equal to 2\n");
+		return 1;
+		}
 	
 	// Making sure that first value of "i" is odd
 	if (mpz_even_p(i))
 		mpz_add_ui(i, i, 1);
 	
-	// Starting the loop. "i" will be increased 2 units per interaction
+	// Starting the loop. "i" will be increased 2 units per interaction in
+	// order to skip even numbers
 	char i_str[MAX_LENGTH];
 	char divisor_str[MAX_LENGTH];
 	mpz_t divisor;
