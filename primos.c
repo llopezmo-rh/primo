@@ -10,20 +10,48 @@
 // find_divisor returns 0 (false) if no divisor different to 1 has been found
 int find_divisor(mpz_t divisor, const mpz_t n)
 	{
+	mpz_init_set_ui(divisor, 1);
+	if (mpz_even_p(n))
+		{
+		mpz_set_ui(divisor, 2);
+		return 1;
+		}
 	
-	
+	register mpz_t i;
+	mpz_init_set_ui(i, 3);
+	register mpz_t last_divisor;
+	mpz_init (last_divisor);
+	mpz_cdiv_q_ui(last_divisor, n, 2);
+	while (mpz_cmp(i, last_divisor) <= 0)
+		{
+		if (mpz_divisible_p(n, i))
+			{
+			mpz_set(divisor, i);
+			break;
+			}
+		else
+			{
+			mpz_cdiv_q(last_divisor, n, i);
+			mpz_add_ui(i, i, 2);
+			}
+		}
+	mpz_clear(i);
+	mpz_clear(last_divisor);
+	if (mpz_cmp_ui(divisor, 1) == 0)
+		return 0;
+	else
+		return 1;	
 	}
 
 int main()
 	{
-	char i_str[MAX_LENGTH] = ""STRINGIFY(DEFAULT_FIRST)"";
-	mpz_t i;
-	mpz_init(i);
-	mpz_init_set_str(i, i_str, 10)
+	register mpz_t i;
+	mpz_init_set_ui(i, DEFAULT_FIRST);
 	
 	if (mpz_even_p(i))
 		mpz_add_ui(i, i, 1);
 	
+	char i_str[MAX_LENGTH];
 	char divisor_str[MAX_LENGTH];
 	mpz_t divisor;
 	for(;;)
