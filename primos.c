@@ -46,6 +46,8 @@ int find_divisor(mpz_t divisor, const mpz_t n)
 
 int main(int argc, char *argv[])
 	{
+	setbuf(stdout, NULL);
+
 	mpz_t i;
 	if (argc == 1)
 		mpz_init_set_str(i, DEFAULT_FIRST, 10);
