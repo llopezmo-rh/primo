@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <gmp.h>
 
 #define MAX_LENGTH 100
