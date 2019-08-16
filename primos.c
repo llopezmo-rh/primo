@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		
-	mpz_clear(i);
-	mpz_clear(divisor);
+	//mpz_clear(i);
+	//mpz_clear(divisor);
 	return 0;	
 	}
