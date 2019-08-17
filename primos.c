@@ -66,6 +66,11 @@ int main(int argc, char *argv[])
 		{
 		fprintf(stderr, "Fatal error: starting number must be an integer greater than or equal to 2\n");
 		return 1;
+		}		
+	if (mpz_sizeinbase(i, 10)>MAX_LENGTH)
+		{
+		fprintf(stderr, "Fatal error: number cannot have more than "STRINGIFY(MAX_LENGTH)" ciphers\n");
+		return 2;
 		}
 	
 	// Making sure that first value of "i" is odd
@@ -77,7 +82,7 @@ int main(int argc, char *argv[])
 	char i_str[MAX_LENGTH];
 	char divisor_str[MAX_LENGTH];
 	mpz_t divisor;
-	for(;;)
+	while (mpz_sizeinbase(i, 10)<=MAX_LENGTH)
 		{
 		if (find_divisor(divisor, i))
 			{
@@ -93,11 +98,6 @@ int main(int argc, char *argv[])
 			}
 		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
-		if (mpz_sizeinbase(i, 10)>MAX_LENGTH)
-			{
-			fprintf(stderr, "Maximum number length reached: "STRINGIFY(MAX_LENGTH)" ciphers\n");
-			break;
-			}
 		}
 		
 	//mpz_clear(i);
