@@ -69,6 +69,13 @@ int main(int argc, char *argv[])
 				break;
 			case 'n':
 				n_output = strtoul(optarg, NULL, 10);
+				//printf ("%lu\n", n_output);
+				//return 1;
+				if (n_output==0)
+					{
+					fprintf (stderr, "Option -n wrong. It must be a positive unsigned long integer\n");
+					return 1;
+					}
 				break;
 			case '?':
 				// First option does not seem to be necessary
