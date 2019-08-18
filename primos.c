@@ -60,8 +60,9 @@ int main(int argc, char *argv[])
 	// Getting options
 	int opt;
 	int prime_break = 0;
+	int output_only_prime = 0;
 	unsigned long int n_output = 0;
-	while ((opt = getopt (argc, argv, "bn:")) != -1)
+	while ((opt = getopt (argc, argv, "bn:p")) != -1)
 		switch (opt)
 			{
 			case 'b':
@@ -76,6 +77,9 @@ int main(int argc, char *argv[])
 					fprintf (stderr, "Option -n wrong. It must be a positive unsigned long integer\n");
 					return 1;
 					}
+				break;
+			case 'p':
+				output_only_prime = 1;
 				break;
 			case '?':
 				// First option does not seem to be necessary
@@ -126,8 +130,11 @@ int main(int argc, char *argv[])
 		if (find_divisor(divisor, i))
 			{
 			mpz_get_str(divisor_str, 10, divisor);
-			mpz_get_str(i_str, 10, i);			
-			printf("%s is divisible by %s\n", i_str, divisor_str);
+			mpz_get_str(i_str, 10, i);
+			if (output_only_prime)
+				count--;
+			else			
+				printf("%s is divisible by %s\n", i_str, divisor_str);
 			}
 		else
 			{
