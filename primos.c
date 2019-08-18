@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	char i_str[MAX_LENGTH];
 	char divisor_str[MAX_LENGTH];
 	mpz_t divisor;
-	while (mpz_sizeinbase(i, 10)<=MAX_LENGTH)
+	do
 		{
 		if (find_divisor(divisor, i))
 			{
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
 			}
 		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
-		}
+		} while (mpz_sizeinbase(i, 10)<=MAX_LENGTH);
 		
 	//mpz_clear(i);
 	//mpz_clear(divisor);
