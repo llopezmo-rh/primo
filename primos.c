@@ -78,10 +78,10 @@ int main(int argc, char *argv[])
 					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
 				else
 					fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
-				printf("Usage: %s [-b] [-n <n_output>] [starting_value]\n", argv[0]);
+				fprintf(stderr, "Usage: %s [-b] [-n <n_output>] [starting_value]\n", argv[0]);
 				return 1;
 			default:
-				printf("Usage: %s [-b] [-n <n_output>] [starting_value]\n", argv[0]);
+				fprintf(stderr, "Usage: %s [-b] [-n <n_output>] [starting_value]\n", argv[0]);
 				return 1;
 			}	
 	
