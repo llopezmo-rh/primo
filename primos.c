@@ -1,19 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <ctype.h>
 #include <gmp.h>
 
 // If the loop reaches a number with more ciphers than MAX_LENGTH, it will stop
 #define MAX_LENGTH 100
 
-// In case no argument is introduced, this will be the first number to be calculated
-#define DEFAULT_FIRST "1000000000000000000000000"
-
 // This allows to use constants on input/output instructions
 #define _STRINGIFY(s) #s
 #define STRINGIFY(s) _STRINGIFY(s)
 
+
+void usage()
+	{
+	fprintf
+		(
+		stderr,
+		"Usage: <executable_file> [-b] [-h] [-n <opt_n_output>] [-p] <starting_value>\n\n\n"
+		"Argument (mandatory):\n"
+		"<starting_value>: first number to calculate whether it is a prime or not.\n\n"	
+		"Options:\n"
+		"-b: Stop execution when a prime number is found.\n"
+		"-h: show this help text.\n"
+		"-n <opt_n_output>: limit amount of numbers to calculate. With -p only prime numbers will be count.\n"
+		"-p: show only prime numbers.\n"
+		);
+	}
 
 // find_divisor stores on "divisor" the first divisor of "n" found different to 1.
 // If none is found, it will set "divisor" to 1.
@@ -59,49 +71,43 @@ int main(int argc, char *argv[])
 	
 	// Getting options
 	int opt;
-	int prime_break = 0;
-	int output_only_prime = 0;
-	unsigned long int n_output = 0;
-	while ((opt = getopt (argc, argv, "bn:p")) != -1)
+	int opt_prime_break = 0;
+	int opt_only_prime = 0;
+	unsigned long int opt_n_output = 0;
+	while ((opt = getopt (argc, argv, "bhn:p")) != -1)
 		switch (opt)
 			{
 			case 'b':
-				prime_break = 1;
+				opt_prime_break = 1;
 				break;
+			case 'h':
+				usage();
+				return 0;
 			case 'n':
-				n_output = strtoul(optarg, NULL, 10);
-				//printf ("%lu\n", n_output);
-				//return 1;
-				if (n_output==0)
+				opt_n_output = strtoul(optarg, NULL, 10);
+				if (opt_n_output==0)
 					{
 					fprintf (stderr, "Option -n wrong. It must be a positive unsigned long integer\n");
 					return 1;
 					}
 				break;
 			case 'p':
-				output_only_prime = 1;
+				opt_only_prime = 1;
 				break;
-			case '?':
-				// First option does not seem to be necessary
-				if (optopt == 'n')
-					fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-				else if (isprint (optopt))
-					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
-				else
-					fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
-				fprintf(stderr, "Usage: %s [-b] [-n <n_output>] [starting_value]\n", argv[0]);
-				return 1;
 			default:
-				fprintf(stderr, "Usage: %s [-b] [-n <n_output>] [starting_value]\n", argv[0]);
+				usage();
 				return 1;
 			}	
 	
 	// Setting first value of "i", which will be the loop index
 	mpz_t i;
-	if (optind<argc)
-		mpz_init_set_str(i, argv[optind], 10);
-	else
-		mpz_init_set_str(i, DEFAULT_FIRST, 10);		
+	if (optind>=argc)
+		{
+		usage();
+		return 1;
+		}
+	mpz_init_set_str(i, argv[optind], 10);
+		
 		
 	// Validating first value of "i"
 	if (mpz_cmp_ui(i, 2) < 0)
@@ -131,7 +137,7 @@ int main(int argc, char *argv[])
 			{
 			mpz_get_str(divisor_str, 10, divisor);
 			mpz_get_str(i_str, 10, i);
-			if (output_only_prime)
+			if (opt_only_prime)
 				count--;
 			else			
 				printf("%s is divisible by %s\n", i_str, divisor_str);
@@ -140,12 +146,12 @@ int main(int argc, char *argv[])
 			{
 			mpz_get_str(i_str, 10, i);
 			printf("%s IS PRIME\n", i_str);
-			if (prime_break)
+			if (opt_prime_break)
 				break;
 			}
 		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
-		if (n_output>0 && ++count>n_output)
+		if (opt_n_output>0 && ++count>opt_n_output)
 			break;
 		} while (mpz_sizeinbase(i, 10)<=MAX_LENGTH);
 		
