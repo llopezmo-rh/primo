@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 	char i_str[MAX_LENGTH];
 	char divisor_str[MAX_LENGTH];
 	mpz_t divisor;
-	int count = 1;
+	unsigned long int count = 1;
 	do
 		{
 		if (find_divisor(divisor, i))
