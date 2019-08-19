@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
 	setbuf(stdout, NULL);
 	
 	// Getting options
+	// strtoul returns 0 if the string is not a number, but it returns a big
+	// number if the string is a negative number (it starts with "-")
 	int opt;
 	int opt_prime_break = 0;
 	int opt_only_prime = 0;
@@ -85,7 +87,7 @@ int main(int argc, char *argv[])
 				return 0;
 			case 'n':
 				opt_n_output = strtoul(optarg, NULL, 10);
-				if (opt_n_output==0)
+				if (optarg[0] == '-' || opt_n_output == 0)
 					{
 					fprintf (stderr, "Option -n wrong. It must be a positive unsigned long integer\n");
 					return 1;
@@ -101,7 +103,7 @@ int main(int argc, char *argv[])
 	
 	// Setting first value of "i", which will be the loop index
 	mpz_t i;
-	if (optind>=argc)
+	if (optind >= argc)
 		{
 		usage();
 		return 1;
@@ -115,7 +117,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Fatal error: starting number must be an integer greater than or equal to 2\n");
 		return 2;
 		}		
-	if (mpz_sizeinbase(i, 10)>MAX_LENGTH)
+	if (mpz_sizeinbase(i, 10) > MAX_LENGTH)
 		{
 		fprintf(stderr, "Fatal error: number cannot have more than "STRINGIFY(MAX_LENGTH)" ciphers\n");
 		return 3;
@@ -151,9 +153,9 @@ int main(int argc, char *argv[])
 			}
 		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
-		if (opt_n_output>0 && ++count>opt_n_output)
+		if (opt_n_output > 0 && ++count > opt_n_output)
 			break;
-		} while (mpz_sizeinbase(i, 10)<=MAX_LENGTH);
+		} while (mpz_sizeinbase(i, 10) <= MAX_LENGTH);
 		
 	//mpz_clear(i);
 	//mpz_clear(divisor);
