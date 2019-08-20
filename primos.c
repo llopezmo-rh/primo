@@ -3,13 +3,8 @@
 #include <unistd.h>
 #include <gmp.h>
 
-// If the loop reaches a number with more ciphers than MAX_LENGTH, it will stop
-#define MAX_LENGTH 100
-
-// This allows to use constants on input/output instructions
-#define _STRINGIFY(s) #s
-#define STRINGIFY(s) _STRINGIFY(s)
-
+#define INIT_LENGTH 30
+#define EXTEND_LENGTH 3
 
 void usage()
 	{
@@ -129,12 +124,21 @@ int main(int argc, char *argv[])
 	
 	// Starting the loop. "i" will be increased 2 units per interaction in
 	// order to skip even numbers
-	char i_str[MAX_LENGTH];
-	char divisor_str[MAX_LENGTH];
+	unsigned int length = INIT_LENGTH;
+	char* i_str = (char*) malloc(sizeof(char) * length);
+	char* divisor_str = (char*) malloc(sizeof(char) * length);
 	mpz_t divisor;
 	unsigned long int count = 1;
-	do
+	for (;;)
 		{
+		if (mpz_sizeinbase(i, 10) > length)
+			{
+			length += EXTEND_LENGTH;
+			free(i_str);
+			free(divisor_str);
+			i_str = (char*) malloc(sizeof(char) * length);
+        		divisor_str = (char*) malloc(sizeof(char) * length);
+			}
 		if (find_divisor(divisor, i))
 			{
 			mpz_get_str(divisor_str, 10, divisor);
@@ -155,7 +159,7 @@ int main(int argc, char *argv[])
 		mpz_add_ui(i, i, 2);
 		if (opt_n_output > 0 && ++count > opt_n_output)
 			break;
-		} while (mpz_sizeinbase(i, 10) <= MAX_LENGTH);
+		}
 		
 	//mpz_clear(i);
 	//mpz_clear(divisor);
