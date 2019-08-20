@@ -3,8 +3,12 @@
 #include <unistd.h>
 #include <gmp.h>
 
-#define INIT_LENGTH 30
-#define EXTEND_LENGTH 3
+// Initial size of strings where the results will be stored
+#define INIT_LENGTH 10
+
+// Strings will be reallocated when the results exceed their size. 
+// The new size of the string will be the size of the results plus EXTEND_LENGTH
+#define EXTEND_LENGTH 2
 
 void usage()
 	{
@@ -112,11 +116,6 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Fatal error: starting number must be an integer greater than or equal to 2\n");
 		return 2;
 		}		
-	if (mpz_sizeinbase(i, 10) > MAX_LENGTH)
-		{
-		fprintf(stderr, "Fatal error: number cannot have more than "STRINGIFY(MAX_LENGTH)" ciphers\n");
-		return 3;
-		}
 	
 	// Making sure that first value of "i" is odd
 	if (mpz_even_p(i))
@@ -133,11 +132,9 @@ int main(int argc, char *argv[])
 		{
 		if (mpz_sizeinbase(i, 10) > length)
 			{
-			length += EXTEND_LENGTH;
-			free(i_str);
-			free(divisor_str);
-			i_str = (char*) malloc(sizeof(char) * length);
-        		divisor_str = (char*) malloc(sizeof(char) * length);
+			length = mpz_sizeinbase(i, 10) + EXTEND_LENGTH;
+			i_str = (char*) realloc(i_str, sizeof(char) * length);
+        		divisor_str = (char*) realloc(divisor_str, sizeof(char) * length);
 			}
 		if (find_divisor(divisor, i))
 			{
