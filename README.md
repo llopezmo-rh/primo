@@ -1,8 +1,8 @@
 # What does "primos" do?
 
-It is a simple prime-number prospector. It starts looking for prime numbers in an infinite loop starting from the number passed as an argument. For example:
+It is a simple prime-number prospector for GNU/Linux. It starts looking for prime numbers in an infinite loop starting from the number passed as an argument. For example:
 ```
-primos 55555
+$ primos 55555
 ```
 
 In that case, it will check whether 55555 is a prime number and then 55557, 55559 and so on (even numbers are skipped because they are never prime, except number 2).
@@ -28,6 +28,11 @@ Options:
 
 
 # Compilation
+
+## Requirement
+[GMP library]([GitHub Pages](https://pages.github.com/) required. It is installed by default on many GNU/Linux distributions.
+
+## How to compile
 ```
-gcc primos.c -o primos -lgmp
+$ gcc primos.c -o primos -lgmp
 ```
