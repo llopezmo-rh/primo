@@ -10,6 +10,17 @@ In that case, it will check whether 55555 is a prime number and then 55557, 5555
 There is no size limit. Starting number can have as many ciphers as wanted. Only hardware and time are the limit.
 
 
+# Compilation
+
+## Requirement
+[GMP library](https://gmplib.org/) required. It is installed by default on many GNU/Linux distributions.
+
+## How to compile
+```
+$ gcc primos.c -o primos -lgmp
+```
+
+
 # Execution
 ```
 $ primos -h
@@ -24,15 +35,4 @@ Options:
 -h: show this help text.
 -n <opt_n_output>: limit amount of numbers to calculate. With -p only prime numbers will be count.
 -p: show only prime numbers.
-```
-
-
-# Compilation
-
-## Requirement
-[GMP library]([GitHub Pages](https://pages.github.com/) required. It is installed by default on many GNU/Linux distributions.
-
-## How to compile
-```
-$ gcc primos.c -o primos -lgmp
 ```
