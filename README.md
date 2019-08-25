@@ -1,11 +1,30 @@
 # What does "primos" do?
 
-It is a simple prime-number prospector for GNU/Linux. It starts looking for prime numbers in an infinite loop starting from the number passed as an argument. For example:
+It is a simple prime-number prospector for GNU/Linux. It looks for prime numbers in an infinite loop starting from the number passed as an argument. For example:
 ```
 $ primos 55555
+55555 is divisible by 5
+55557 is divisible by 3
+55559 is divisible by 7
+55561 is divisible by 11
+55563 is divisible by 3
+55565 is divisible by 5
+55567 is divisible by 181
+55569 is divisible by 3
+55571 is divisible by 61
+55573 is divisible by 7
+55575 is divisible by 3
+55577 is divisible by 149
+55579 IS PRIME
+55581 is divisible by 3
+55583 is divisible by 11
+55585 is divisible by 5
+55587 is divisible by 3
+55589 IS PRIME
+55591 is divisible by 23
+55593 is divisible by 3
+[...]
 ```
-
-In that case, it will check whether 55555 is a prime number and then 55557, 55559 and so on (even numbers are skipped because they are never prime, except number 2).
 
 There is no size limit. Starting number can have as many ciphers as wanted. Only hardware and time are the limit.
 ```
@@ -20,7 +39,7 @@ primos 1000000000000000000000000000000000000000000000000000000000000000000000000
 # Compilation
 
 ## Requirement
-[GMP library](https://gmplib.org/) required. It is installed by default on many GNU/Linux distributions.
+[GNU Multiple Precision Arithmetic Library](https://gmplib.org/) required. It is installed by default on many GNU/Linux distributions.
 
 ## How to compile
 ```
