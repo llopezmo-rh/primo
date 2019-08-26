@@ -26,7 +26,7 @@
 // The new size of the string will be the size of the results plus EXTEND_LENGTH
 #define EXTEND_LENGTH 2
 
-// Colour used for lines showing found prime numbers
+// Colour (code in a string) used for lines showing found prime numbers
 #define COLOUR "31"
 
 
