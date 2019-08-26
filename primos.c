@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 		else
 			{
 			mpz_get_str(i_str, 10, i);
-			printf("%s IS PRIME\n", i_str);
+			printf("\033[0;31m%s is prime\n\033[0m", i_str);
 			if (opt_prime_break)
 				break;
 			}
