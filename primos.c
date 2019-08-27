@@ -18,12 +18,17 @@
 #include <unistd.h>
 #include <gmp.h>
 
+
 // Initial size of strings where the results will be stored
 #define INIT_LENGTH 10
 
 // Strings will be reallocated when the results exceed their size. 
 // The new size of the string will be the size of the results plus EXTEND_LENGTH
 #define EXTEND_LENGTH 2
+
+// Colour (code in a string) used for lines showing found prime numbers
+#define COLOUR "31"
+
 
 void usage()
 	{
@@ -163,7 +168,7 @@ int main(int argc, char *argv[])
 		else
 			{
 			mpz_get_str(i_str, 10, i);
-			printf("%s IS PRIME\n", i_str);
+			printf("\033[0;%sm%s is prime\n\033[0m", COLOUR, i_str);
 			if (opt_prime_break)
 				break;
 			}
