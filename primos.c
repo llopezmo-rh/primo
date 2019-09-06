@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
 			mpz_get_str(i_str, 10, i);
 			if (opt_only_prime)
 				count--;
-			else			
+			else if (mpz_cmp_ui(divisor, 5) != 0)
 				printf("%s is divisible by %s\n", i_str, divisor_str);
 			}
 		else
