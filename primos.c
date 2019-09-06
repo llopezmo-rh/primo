@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <gmp.h>
+#include <string.h>
 
 
 // Initial size of strings where the results will be stored
@@ -162,7 +163,7 @@ int main(int argc, char *argv[])
 			mpz_get_str(i_str, 10, i);
 			if (opt_only_prime)
 				count--;
-			else if (mpz_cmp_ui(divisor, 5) != 0)
+			else if (i_str[strlen(i_str) - 1] != '5') // Last cipher is not five
 				printf("%s is divisible by %s\n", i_str, divisor_str);
 			}
 		else
@@ -177,8 +178,5 @@ int main(int argc, char *argv[])
 		if (opt_n_output > 0 && ++count > opt_n_output)
 			break;
 		}
-		
-	//mpz_clear(i);
-	//mpz_clear(divisor);
 	return 0;	
 	}
