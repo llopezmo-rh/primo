@@ -143,7 +143,9 @@ int main(int argc, char *argv[])
 		mpz_add_ui(i, i, 1);
 	
 	// Starting the loop. "i" will be increased 2 units per interaction in
-	// order to skip even numbers
+	// order to skip even numbers.
+	// As well as even numbers, the ones whose last cipher is 5 are never prime
+	// and will not be printed.
 	unsigned int length = INIT_LENGTH;
 	char* i_str = (char*) malloc(sizeof(char) * length);
 	char* divisor_str = (char*) malloc(sizeof(char) * length);
@@ -163,7 +165,7 @@ int main(int argc, char *argv[])
 			mpz_get_str(i_str, 10, i);
 			if (opt_only_prime)
 				count--;
-			else if (i_str[strlen(i_str) - 1] != '5') // Last cipher is not five
+			else if (i_str[strlen(i_str) - 1] != '5') 
 				printf("%s is divisible by %s\n", i_str, divisor_str);
 			}
 		else
