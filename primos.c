@@ -160,8 +160,11 @@ int main(int argc, char *argv[])
         		divisor_str = (char*) realloc(divisor_str, sizeof(char) * length);
 			}
 		mpz_get_str(i_str, 10, i);
-		if (i_str[strlen(i_str) - 1] != '5')
+		if (i_str[strlen(i_str) - 1] == '5')
+			{
+			mpz_add_ui(i, i, 2);
 			continue;
+			}
 		if (find_divisor(divisor, i))
 			{
 			mpz_get_str(divisor_str, 10, divisor);
