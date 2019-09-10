@@ -159,18 +159,19 @@ int main(int argc, char *argv[])
 			i_str = (char*) realloc(i_str, sizeof(char) * length);
         		divisor_str = (char*) realloc(divisor_str, sizeof(char) * length);
 			}
+		mpz_get_str(i_str, 10, i);
+		if (i_str[strlen(i_str) - 1] != '5')
+			continue;
 		if (find_divisor(divisor, i))
 			{
 			mpz_get_str(divisor_str, 10, divisor);
-			mpz_get_str(i_str, 10, i);
 			if (opt_only_prime)
 				count--;
-			else if (i_str[strlen(i_str) - 1] != '5') 
+			else 
 				printf("%s is divisible by %s\n", i_str, divisor_str);
 			}
 		else
 			{
-			mpz_get_str(i_str, 10, i);
 			printf("\033[0;%sm%s is prime\n\033[0m", COLOUR, i_str);
 			if (opt_prime_break)
 				break;
