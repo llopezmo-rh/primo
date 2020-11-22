@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}		
 	
-	// Making sure that "i" is odd begore starting the loop to calculate
+	// Making sure that "i" is odd before starting the loop to calculate
 	// numbers greater than 2
 	if (mpz_even_p(i))
 		mpz_add_ui(i, i, 1);
