@@ -136,9 +136,22 @@ int main(int argc, char *argv[])
 		{
 		fprintf(stderr, "Fatal error: starting number must be an integer greater than or equal to 2\n");
 		return 2;
+		}
+		
+	// Checking whether "i" is equal to 2 and initialize variable to
+	// count how many numbers are being calculated
+	unsigned long int count = 0;
+	if (mpz_cmp_ui(i, 2) == 0)
+		{
+		printf("\033[0;%sm2 is prime\n\033[0m", COLOUR);
+		if (opt_prime_break)
+			return 0;
+		if (opt_n_output > 0 && ++count >= opt_n_output)
+			return 0;
 		}		
 	
-	// Making sure that first value of "i" is odd
+	// Making sure that "i" is odd begore starting the loop to calculate
+	// numbers greater than 2
 	if (mpz_even_p(i))
 		mpz_add_ui(i, i, 1);
 	
@@ -150,7 +163,6 @@ int main(int argc, char *argv[])
 	char* i_str = (char*) malloc(sizeof(char) * length);
 	char* divisor_str = (char*) malloc(sizeof(char) * length);
 	mpz_t divisor;
-	unsigned long int count = 1;
 	for (;;)
 		{
 		if (mpz_sizeinbase(i, 10) > length)
@@ -181,7 +193,7 @@ int main(int argc, char *argv[])
 			}
 		mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
-		if (opt_n_output > 0 && ++count > opt_n_output)
+		if (opt_n_output > 0 && ++count >= opt_n_output)
 			break;
 		}
 	return 0;	
