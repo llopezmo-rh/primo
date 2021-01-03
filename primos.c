@@ -49,19 +49,24 @@ void usage()
 
 // find_divisor stores on "divisor" the first divisor of "n" found different to 1.
 // If none is found, it will set "divisor" to 1.
-// It returns 0 (false) if no divisor different to 1 has been found. Otherwise 1
+// It returns 0 (false) if no divisor different to 1 has been found. Otherwise 1.
+// "divisor" must have been initialized before calling the function
 int find_divisor(mpz_t divisor, const mpz_t n)
 	{
-	mpz_init_set_ui(divisor, 1);
+	mpz_t i, last_divisor;
+	if (mpz_cmp_ui(n, 2) == 0)
+		{       
+		mpz_set_ui(divisor, 1);
+		return 0;
+		}
 	if (mpz_even_p(n))
 		{
 		mpz_set_ui(divisor, 2);
 		return 1;
-		}	
-	mpz_t i;
+		}     
+	mpz_set_ui(divisor, 1);
 	mpz_init_set_ui(i, 3);
-	mpz_t last_divisor;
-	mpz_init (last_divisor);
+	mpz_init(last_divisor);
 	mpz_cdiv_q_ui(last_divisor, n, 2);
 	while (mpz_cmp(i, last_divisor) <= 0)
 		{
@@ -81,7 +86,7 @@ int find_divisor(mpz_t divisor, const mpz_t n)
 	if (mpz_cmp_ui(divisor, 1) == 0)
 		return 0;
 	else
-		return 1;	
+		return 1;   
 	}
 
 int main(int argc, char *argv[])
@@ -163,6 +168,7 @@ int main(int argc, char *argv[])
 	char* i_str = (char*) malloc(sizeof(char) * length);
 	char* divisor_str = (char*) malloc(sizeof(char) * length);
 	mpz_t divisor;
+	mpz_init(divisor);
 	for (;;)
 		{
 		if (mpz_sizeinbase(i, 10) > length)
@@ -191,7 +197,7 @@ int main(int argc, char *argv[])
 			if (opt_prime_break)
 				break;
 			}
-		mpz_clear(divisor);
+		//mpz_clear(divisor);
 		mpz_add_ui(i, i, 2);
 		if (opt_n_output > 0 && ++count >= opt_n_output)
 			break;
