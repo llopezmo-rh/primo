@@ -27,8 +27,11 @@
 // The new size of the string will be the size of the results plus EXTEND_LENGTH
 #define EXTEND_LENGTH 2
 
-// Colour (code in a string) used for lines showing found prime numbers
-#define COLOUR "31"
+// Colour code used for lines showing found prime numbers
+#define RED "31"
+
+// Radix for numbers in string format
+#define RADIX 10
 
 
 void usage()
@@ -108,7 +111,7 @@ int main(int argc, char *argv[])
 				usage();
 				return 0;
 			case 'n':
-				opt_n_output = strtoul(optarg, NULL, 10);
+				opt_n_output = strtoul(optarg, NULL, RADIX);
 				if (optarg[0] == '-' || opt_n_output == 0)
 					{
 					fprintf (stderr, "Option -n wrong. It must be a positive unsigned long integer\n");
@@ -130,7 +133,7 @@ int main(int argc, char *argv[])
 		usage();
 		return 1;
 		}
-	mpz_init_set_str(i, argv[optind], 10);
+	mpz_init_set_str(i, argv[optind], RADIX);
 		
 		
 	// Validating first value of "i"
@@ -145,7 +148,7 @@ int main(int argc, char *argv[])
 	unsigned long int count = 0;
 	if (mpz_cmp_ui(i, 2) == 0)
 		{
-		printf("\033[0;%sm2 is prime\n\033[0m", COLOUR);
+		printf("\033[0;%sm2 is prime\n\033[0m", RED);
 		if (opt_prime_break)
 			return 0;
 		if (opt_n_output > 0 && ++count >= opt_n_output)
@@ -168,13 +171,13 @@ int main(int argc, char *argv[])
 	mpz_init(divisor);
 	for (;;)
 		{
-		if (mpz_sizeinbase(i, 10) > length)
+		if (mpz_sizeinbase(i, RADIX) > length)
 			{
-			length = mpz_sizeinbase(i, 10) + EXTEND_LENGTH;
+			length = mpz_sizeinbase(i, RADIX) + EXTEND_LENGTH;
 			i_str = (char*) realloc(i_str, sizeof(char) * length);
         		divisor_str = (char*) realloc(divisor_str, sizeof(char) * length);
 			}
-		mpz_get_str(i_str, 10, i);
+		mpz_get_str(i_str, RADIX, i);
 		if (i_str[strlen(i_str) - 1] == '5')
 			{
 			mpz_add_ui(i, i, 2);
@@ -182,7 +185,7 @@ int main(int argc, char *argv[])
 			}
 		if (find_divisor(divisor, i))
 			{
-			mpz_get_str(divisor_str, 10, divisor);
+			mpz_get_str(divisor_str, RADIX, divisor);
 			if (opt_only_prime)
 				count--;
 			else 
@@ -190,7 +193,7 @@ int main(int argc, char *argv[])
 			}
 		else
 			{
-			printf("\033[0;%sm%s is prime\n\033[0m", COLOUR, i_str);
+			printf("\033[0;%sm%s is prime\n\033[0m", RED, i_str);
 			if (opt_prime_break)
 				break;
 			}
